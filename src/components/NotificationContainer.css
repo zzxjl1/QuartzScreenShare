@@ -1,0 +1,155 @@
+/* 通知容器样式 */
+
+.notification-container {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 400px;
+  pointer-events: none;
+}
+
+.notification {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: var(--crystal-bg);
+  backdrop-filter: var(--crystal-backdrop);
+  -webkit-backdrop-filter: var(--crystal-backdrop);
+  border: 1px solid var(--crystal-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+  pointer-events: auto;
+  position: relative;
+  overflow: hidden;
+  animation: slideInRight 0.3s ease;
+  transition: all var(--duration-normal) ease;
+}
+
+.notification:hover {
+  transform: translateX(-5px);
+  box-shadow: var(--shadow-xl);
+}
+
+.notification::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+}
+
+.notification-success::before {
+  background: var(--leaf-500);
+}
+
+.notification-error::before {
+  background: #ef4444;
+}
+
+.notification-info::before {
+  background: var(--lemon-500);
+}
+
+.notification-warning::before {
+  background: var(--mango-500);
+}
+
+.notification-icon {
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.notification-icon i {
+  font-size: 1.25rem;
+}
+
+.notification-success .notification-icon i {
+  color: var(--leaf-500);
+}
+
+.notification-error .notification-icon i {
+  color: #ef4444;
+}
+
+.notification-info .notification-icon i {
+  color: var(--lemon-500);
+}
+
+.notification-warning .notification-icon i {
+  color: var(--mango-500);
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-title {
+  font-weight: 600;
+  color: var(--gray-800);
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.notification-message {
+  font-size: 0.8125rem;
+  color: var(--gray-600);
+  line-height: 1.4;
+}
+
+.notification-close {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--gray-500);
+  transition: all var(--duration-fast) ease;
+  margin-top: -0.25rem;
+  margin-right: -0.25rem;
+}
+
+.notification-close:hover {
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--gray-700);
+  transform: scale(1.1);
+}
+
+.notification-close i {
+  font-size: 0.75rem;
+}
+
+@keyframes slideInRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .notification-container {
+    right: 1rem;
+    left: 1rem;
+    max-width: none;
+  }
+  
+  .notification {
+    padding: 0.875rem 1rem;
+  }
+}

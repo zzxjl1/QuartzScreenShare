@@ -20,9 +20,35 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
+// API 路由 - 检查房间是否存在
+app.get('/api/rooms/:roomId/exists', (req, res) => {
+  const { roomId } = req.params;
+  const exists = rooms.has(roomId) && rooms.get(roomId).size > 0;
+  res.json({ exists });
+});
+
 // 存储连接的客户端
 const clients = new Map();
 const rooms = new Map();
+
+// 获取房间成员列表
+function getRoomMembers(roomId) {
+  const members = [];
+  if (rooms.has(roomId)) {
+    for (const socketId of rooms.get(roomId)) {
+      const client = clients.get(socketId);
+      if (client) {
+        members.push({
+          id: socketId,
+          name: `用户${socketId.slice(-4)}`,
+          isSharing: client.isScreenSharing,
+          connectionStatus: 'connected'
+        });
+      }
+    }
+  }
+  return members;
+}
 
 // Socket.IO 连接处理
 io.on('connection', (socket) => {
@@ -32,6 +58,16 @@ io.on('connection', (socket) => {
     id: socket.id,
     isScreenSharing: false,
     room: null
+  });
+
+  // 检查房间是否存在（用于验证）
+  socket.on('check-room', (roomId, callback) => {
+    const exists = rooms.has(roomId) && rooms.get(roomId).size > 0;
+    callback({
+      exists,
+      roomId,
+      userCount: exists ? rooms.get(roomId).size : 0
+    });
   });
 
   // 加入房间
@@ -48,16 +84,25 @@ io.on('connection', (socket) => {
       
       console.log(`客户端 ${socket.id} 加入房间 ${roomId}`);
       
-      // 通知房间内其他成员
+      // 通知房间内其他成员有新用户加入
       socket.to(roomId).emit('user-joined', {
         userId: socket.id,
         userCount: rooms.get(roomId).size
       });
       
-      // 发送当前房间用户数
+      // 发送当前房间用户数给新加入的用户
+      const roomMembers = getRoomMembers(roomId);
       socket.emit('room-info', {
         roomId,
-        userCount: rooms.get(roomId).size
+        userCount: rooms.get(roomId).size,
+        members: roomMembers
+      });
+      
+      // 通知房间内所有成员更新用户计数和成员列表
+      io.to(roomId).emit('room-info', {
+        roomId,
+        userCount: rooms.get(roomId).size,
+        members: roomMembers
       });
       
       // 检查房间内是否有正在共享屏幕的用户
@@ -92,6 +137,16 @@ io.on('connection', (socket) => {
       socket.to(roomId).emit('screen-share-started', {
         userId: socket.id
       });
+      
+      // 更新房间成员列表
+      if (rooms.has(roomId)) {
+        const roomMembers = getRoomMembers(roomId);
+        io.to(roomId).emit('room-info', {
+          roomId,
+          userCount: rooms.get(roomId).size,
+          members: roomMembers
+        });
+      }
     }
   });
 
@@ -106,6 +161,16 @@ io.on('connection', (socket) => {
       socket.to(roomId).emit('screen-share-stopped', {
         userId: socket.id
       });
+      
+      // 更新房间成员列表
+      if (rooms.has(roomId)) {
+        const roomMembers = getRoomMembers(roomId);
+        io.to(roomId).emit('room-info', {
+          roomId,
+          userCount: rooms.get(roomId).size,
+          members: roomMembers
+        });
+      }
     }
   });
 
@@ -142,15 +207,28 @@ io.on('connection', (socket) => {
       
       if (room) {
         room.delete(socket.id);
+        console.log(`客户端 ${socket.id} 离开房间 ${roomId}, 剩余用户: ${room.size}`);
         
-        // 通知房间内其他成员
+        // 通知房间内其他成员有用户离开
         socket.to(roomId).emit('user-left', {
           userId: socket.id,
           userCount: room.size
         });
         
+        // 通知房间内所有剩余成员更新用户计数和成员列表
+        if (room.size > 0) {
+          const roomMembers = getRoomMembers(roomId);
+          console.log(`更新房间 ${roomId} 成员列表:`, roomMembers.map(m => m.id));
+          io.to(roomId).emit('room-info', {
+            roomId,
+            userCount: room.size,
+            members: roomMembers
+          });
+        }
+        
         // 如果房间为空，删除房间
         if (room.size === 0) {
+          console.log(`房间 ${roomId} 已空，删除房间`);
           rooms.delete(roomId);
         }
       }
@@ -176,6 +254,31 @@ app.get('/api/rooms', (req, res) => {
   }));
   
   res.json({ rooms: roomList });
+});
+
+// 检查房间是否存在
+app.get('/api/room/:roomId/exists', (req, res) => {
+  const { roomId } = req.params;
+  const exists = rooms.has(roomId) && rooms.get(roomId).size > 0;
+  
+  console.log(`检查房间 ${roomId} 是否存在: ${exists}, 房间数量: ${rooms.get(roomId)?.size || 0}`);
+  
+  res.json({ 
+    exists,
+    roomId,
+    userCount: exists ? rooms.get(roomId).size : 0
+  });
+});
+
+// SPA 路由回退 - 对于所有非API路由，返回index.html
+app.get('*', (req, res) => {
+  // 排除API路由
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ error: 'API endpoint not found' });
+  }
+  
+  // 对于所有其他路由，返回index.html让前端路由处理
+  res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 // 启动服务器

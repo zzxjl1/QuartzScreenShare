@@ -1,0 +1,366 @@
+/* 欢迎页面样式 */
+
+.welcome-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 2rem;
+}
+
+.welcome-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+.crystal-orbs {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(135deg, 
+    rgba(250, 204, 21, 0.3), 
+    rgba(249, 115, 22, 0.3), 
+    rgba(34, 197, 94, 0.3)
+  );
+  filter: blur(40px);
+  animation: float 6s ease-in-out infinite;
+}
+
+.orb-1 {
+  width: 300px;
+  height: 300px;
+  top: 10%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  width: 200px;
+  height: 200px;
+  top: 60%;
+  right: 20%;
+  animation-delay: 2s;
+}
+
+.orb-3 {
+  width: 150px;
+  height: 150px;
+  bottom: 20%;
+  left: 30%;
+  animation-delay: 4s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.welcome-container {
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+  z-index: 1;
+}
+
+.welcome-header {
+  margin-bottom: 3rem;
+}
+
+.welcome-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--gray-800);
+  margin: 1.5rem 0 1rem;
+  line-height: 1.2;
+}
+
+.brand-name {
+  display: block;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 3.5rem;
+  margin-top: 0.5rem;
+}
+
+.welcome-subtitle {
+  font-size: 1.125rem;
+  color: var(--gray-600);
+  line-height: 1.6;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.welcome-card {
+  padding: 3rem;
+  margin-bottom: 3rem;
+  animation-delay: 0.2s;
+}
+
+.card-header {
+  margin-bottom: 2.5rem;
+}
+
+.card-header h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--gray-800);
+  margin-bottom: 0.75rem;
+}
+
+.card-header h2 i {
+  color: var(--mango-500);
+}
+
+.card-header p {
+  color: var(--gray-600);
+  font-size: 1rem;
+}
+
+.input-section {
+  margin-bottom: 2rem;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 1rem;
+  color: var(--gray-500);
+  z-index: 2;
+}
+
+.input-group .crystal-input {
+  padding-left: 3rem;
+  font-size: 1rem;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.divider {
+  position: relative;
+  text-align: center;
+  color: var(--gray-500);
+  font-weight: 500;
+}
+
+.divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--gray-300);
+  z-index: 1;
+}
+
+.divider span {
+  background: var(--crystal-bg);
+  padding: 0 1rem;
+  position: relative;
+  z-index: 2;
+  backdrop-filter: blur(10px);
+}
+
+.card-footer {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--gray-200);
+}
+
+.features {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--gray-600);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.feature i {
+  color: var(--leaf-500);
+}
+
+.welcome-info {
+  margin-bottom: 2rem;
+  animation-delay: 0.4s;
+}
+
+.info-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.info-card {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: transform var(--duration-normal) ease;
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+}
+
+.info-icon {
+  margin-bottom: 1rem;
+}
+
+.info-icon i {
+  font-size: 2.5rem;
+  color: var(--mango-500);
+}
+
+.info-card h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--gray-800);
+  margin-bottom: 0.5rem;
+}
+
+.info-card p {
+  color: var(--gray-600);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.welcome-footer {
+  color: var(--gray-500);
+  font-size: 0.875rem;
+  animation-delay: 0.6s;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.loading-spinner {
+  width: 60px;
+  height: 60px;
+  border: 3px solid var(--gray-200);
+  border-top: 3px solid var(--lemon-500);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-overlay p {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--gray-700);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .welcome-page {
+    padding: 1rem;
+  }
+  
+  .welcome-title {
+    font-size: 2.25rem;
+  }
+  
+  .brand-name {
+    font-size: 2.5rem;
+  }
+  
+  .welcome-subtitle {
+    font-size: 1rem;
+  }
+  
+  .welcome-card {
+    padding: 2rem 1.5rem;
+  }
+  
+  .card-header h2 {
+    font-size: 1.25rem;
+  }
+  
+  .info-cards {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .info-card {
+    padding: 1.5rem 1rem;
+  }
+  
+  .features {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .orb {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-title {
+    font-size: 1.875rem;
+  }
+  
+  .brand-name {
+    font-size: 2rem;
+  }
+  
+  .welcome-card {
+    padding: 1.5rem 1rem;
+  }
+  
+  .action-buttons {
+    gap: 1rem;
+  }
+}

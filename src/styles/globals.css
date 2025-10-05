@@ -1,0 +1,344 @@
+/* 全局样式 */
+
+:root {
+  /* 柠檬配色 */
+  --lemon-50: #fefce8;
+  --lemon-100: #fef9c3;
+  --lemon-200: #fef08a;
+  --lemon-300: #fde047;
+  --lemon-400: #facc15;
+  --lemon-500: #eab308;
+  --lemon-600: #ca8a04;
+  --lemon-700: #a16207;
+  --lemon-800: #854d0e;
+  --lemon-900: #713f12;
+
+  /* 芒果配色 */
+  --mango-50: #fff7ed;
+  --mango-100: #ffedd5;
+  --mango-200: #fed7aa;
+  --mango-300: #fdba74;
+  --mango-400: #fb923c;
+  --mango-500: #f97316;
+  --mango-600: #ea580c;
+  --mango-700: #c2410c;
+  --mango-800: #9a3412;
+  --mango-900: #7c2d12;
+
+  /* 绿叶素配色 */
+  --leaf-50: #f0fdf4;
+  --leaf-100: #dcfce7;
+  --leaf-200: #bbf7d0;
+  --leaf-300: #86efac;
+  --leaf-400: #4ade80;
+  --leaf-500: #22c55e;
+  --leaf-600: #16a34a;
+  --leaf-700: #15803d;
+  --leaf-800: #166534;
+  --leaf-900: #14532d;
+
+  /* 中性色 */
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+
+  /* 晶莹效果 */
+  --crystal-bg: rgba(255, 255, 255, 0.1);
+  --crystal-border: rgba(255, 255, 255, 0.2);
+  --crystal-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --crystal-backdrop: blur(20px);
+  
+  /* 渐变效果 */
+  --gradient-primary: linear-gradient(135deg, var(--lemon-400), var(--mango-400));
+  --gradient-secondary: linear-gradient(135deg, var(--leaf-400), var(--lemon-300));
+  --gradient-success: linear-gradient(135deg, var(--leaf-500), var(--leaf-400));
+  --gradient-danger: linear-gradient(135deg, #ef4444, #dc2626);
+  
+  /* 字体 */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  /* 阴影层级 */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+  
+  /* 动画时长 */
+  --duration-fast: 0.15s;
+  --duration-normal: 0.3s;
+  --duration-slow: 0.5s;
+}
+
+/* 基础重置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-family);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--gray-800);
+  background: linear-gradient(135deg, var(--lemon-50), var(--mango-50), var(--leaf-50));
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* 应用容器 */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 晶莹玻璃效果 */
+.glass-card {
+  background: var(--crystal-bg);
+  backdrop-filter: var(--crystal-backdrop);
+  -webkit-backdrop-filter: var(--crystal-backdrop);
+  border: 1px solid var(--crystal-border);
+  border-radius: 16px;
+  box-shadow: var(--crystal-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  z-index: 1;
+}
+
+/* 按钮样式 */
+.crystal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all var(--duration-normal) ease;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-family: var(--font-family);
+}
+
+.crystal-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left var(--duration-slow) ease;
+  z-index: 1;
+}
+
+.crystal-btn:hover::before {
+  left: 100%;
+}
+
+.crystal-btn > * {
+  position: relative;
+  z-index: 2;
+}
+
+.crystal-btn.primary {
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+
+.crystal-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.crystal-btn.success {
+  background: var(--gradient-success);
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+
+.crystal-btn.success:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.crystal-btn.danger {
+  background: var(--gradient-danger);
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+
+.crystal-btn.danger:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.crystal-btn.large {
+  padding: 1.25rem 2rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.crystal-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.crystal-btn:disabled::before {
+  display: none;
+}
+
+/* 输入框样式 */
+.crystal-input {
+  width: 100%;
+  padding: 0.875rem 1.125rem;
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid var(--gray-200);
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--gray-800);
+  transition: all var(--duration-normal) ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-family: var(--font-family);
+}
+
+.crystal-input:focus {
+  outline: none;
+  border-color: var(--lemon-400);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.1);
+  transform: translateY(-1px);
+}
+
+.crystal-input::placeholder {
+  color: var(--gray-500);
+}
+
+/* 水晶图标 */
+.crystal-icon {
+  font-size: 2rem;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.crystal-icon-large {
+  font-size: 4rem;
+  background: var(--gradient-secondary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.crystal-icon-huge {
+  font-size: 8rem;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.1));
+}
+
+/* 动画 */
+@keyframes fadeIn {
+  0% { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes slideInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 1; 
+  }
+  50% { 
+    opacity: 0.5; 
+  }
+}
+
+.fade-in {
+  animation: fadeIn var(--duration-normal) ease;
+}
+
+.slide-in-up {
+  animation: slideInUp var(--duration-normal) ease;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .crystal-btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.8125rem;
+  }
+  
+  .crystal-btn.large {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .crystal-input {
+    padding: 0.75rem 1rem;
+    font-size: 0.8125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .crystal-icon-huge {
+    font-size: 6rem;
+  }
+  
+  .crystal-icon-large {
+    font-size: 3rem;
+  }
+}

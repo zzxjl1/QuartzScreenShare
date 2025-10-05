@@ -1,0 +1,110 @@
+/* 房间页面样式 */
+
+.room-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, var(--lemon-50), var(--mango-50), var(--leaf-50));
+}
+
+.connecting-overlay {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.connecting-content {
+  text-align: center;
+  background: var(--crystal-bg);
+  backdrop-filter: var(--crystal-backdrop);
+  border: 1px solid var(--crystal-border);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  box-shadow: var(--crystal-shadow);
+}
+
+.connecting-content .loading-spinner {
+  width: 60px;
+  height: 60px;
+  border: 3px solid var(--gray-200);
+  border-top: 3px solid var(--lemon-500);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 2rem;
+}
+
+.connecting-content h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--gray-800);
+  margin-bottom: 0.5rem;
+}
+
+.connecting-content p {
+  color: var(--gray-600);
+  margin-bottom: 2rem;
+}
+
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+.loading-container .loading-spinner {
+  font-size: 3rem;
+  color: #ffa500;
+  margin-bottom: 1rem;
+  animation: spin 1s linear infinite;
+}
+
+.loading-container p {
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.room-main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+  .room-main {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .room-main {
+    gap: 1rem;
+  }
+  
+  .connecting-content {
+    padding: 2rem 1.5rem;
+  }
+}
