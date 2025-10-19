@@ -32,7 +32,7 @@ const VideoPlayer = ({ stream, isLocal = false, isSharing = false, userId, title
             console.log('视频自动播放成功');
           })
           .catch(error => {
-            console.error('视频自动播放失败:', error);
+            console.log('视频自动播放失败:', error);
             // 如果是远程视频且自动播放失败，尝试取消静音后播放
             if (!isLocal && videoRef.current) {
               videoRef.current.muted = true;

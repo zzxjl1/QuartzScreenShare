@@ -4,8 +4,11 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  min-height: 400px;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
+
 
 .local-video-area {
   width: 100%;
@@ -36,11 +39,34 @@
   gap: 1.5rem;
 }
 
+/* 自定义滚动条样式 */
+.video-section::-webkit-scrollbar {
+  width: 8px;
+}
+
+.video-section::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.video-section::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.video-section::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
   .video-section {
     gap: 1.5rem;
+    height: auto;
+    overflow-y: visible;
   }
+
   
   .remote-videos-grid {
     grid-template-columns: 1fr;

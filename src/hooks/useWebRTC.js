@@ -1,7 +1,9 @@
 import { useState, useCallback } from 'react';
 import WebRTCService from '../services/WebRTCService';
+import { useNotification } from './useNotification';
 
 export const useWebRTC = () => {
+  const { showNotification } = useNotification();
   const [webrtcService, setWebrtcService] = useState(null);
   const [isSharing, setIsSharing] = useState(false);
   const [localStream, setLocalStream] = useState(null);
@@ -16,6 +18,11 @@ export const useWebRTC = () => {
       console.log('useWebRTC: 连接到房间', roomId);
       
       const service = new WebRTCService();
+      
+      // 辅助函数：根据userId获取用户名
+      const getUserName = (userId) => {
+        return `用户${userId.slice(-4)}`;
+      };
       
       // 设置事件回调
       service.setCallback('onConnectionStateChange', (status) => {
@@ -34,10 +41,17 @@ export const useWebRTC = () => {
 
       service.setCallback('onUserJoined', (data) => {
         console.log('用户加入:', data);
+        const userName = getUserName(data.userId);
+        showNotification('info', '用户加入', `${userName} 加入了房间`);
       });
+
+
+
 
       service.setCallback('onUserLeft', (data) => {
         console.log('用户离开:', data);
+        const userName = getUserName(data.userId);
+        showNotification('warning', '用户离开', `${userName} 离开了房间`);
         // 只处理远程流的清理，房间成员列表由 room-info 事件统一更新
         setRemoteStreams(prev => {
           const newMap = new Map(prev);
@@ -46,14 +60,22 @@ export const useWebRTC = () => {
         });
       });
 
+
+
       service.setCallback('onScreenShareStarted', (data) => {
         console.log('远程屏幕共享开始:', data);
+        const userName = getUserName(data.userId);
+        showNotification('success', '屏幕共享', `${userName} 开始了屏幕共享`);
         // 这里不需要立即添加流，流会通过onRemoteStreamAdded回调添加
         // 但我们可以显示连接状态或通知
       });
 
+
+
       service.setCallback('onScreenShareStopped', (data) => {
         console.log('远程屏幕共享停止:', data);
+        const userName = getUserName(data.userId);
+        showNotification('info', '屏幕共享', `${userName} 停止了屏幕共享`);
         // 移除对应用户的远程流
         if (data.userId) {
           setRemoteStreams(prev => {
@@ -63,6 +85,8 @@ export const useWebRTC = () => {
           });
         }
       });
+
+
 
       service.setCallback('onRemoteStreamAdded', (userId, stream) => {
         console.log('添加远程流:', userId);

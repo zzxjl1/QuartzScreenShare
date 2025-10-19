@@ -20,12 +20,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
-// API 路由 - 检查房间是否存在
-app.get('/api/rooms/:roomId/exists', (req, res) => {
-  const { roomId } = req.params;
-  const exists = rooms.has(roomId) && rooms.get(roomId).size > 0;
-  res.json({ exists });
-});
 
 // 存储连接的客户端
 const clients = new Map();
@@ -257,11 +251,11 @@ app.get('/api/rooms', (req, res) => {
 });
 
 // 检查房间是否存在
-app.get('/api/room/:roomId/exists', (req, res) => {
+app.get('/api/rooms/:roomId/exists', (req, res) => {
   const { roomId } = req.params;
   const exists = rooms.has(roomId) && rooms.get(roomId).size > 0;
   
-  console.log(`检查房间 ${roomId} 是否存在: ${exists}, 房间数量: ${rooms.get(roomId)?.size || 0}`);
+  console.log(`检查房间 ${roomId} 是否存在: ${exists}, 用户数量: ${rooms.get(roomId)?.size || 0}`);
   
   res.json({ 
     exists,

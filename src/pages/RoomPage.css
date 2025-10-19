@@ -84,7 +84,10 @@
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
+  height: calc(100vh - 80px); /* 减去Header高度 */
+  overflow: hidden;
 }
+
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
@@ -96,8 +99,11 @@
   .room-main {
     grid-template-columns: 1fr;
     padding: 1rem;
+    height: auto;
+    overflow: visible;
   }
 }
+
 
 @media (max-width: 768px) {
   .room-main {

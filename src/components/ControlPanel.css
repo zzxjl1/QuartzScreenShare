@@ -2,13 +2,15 @@
 
 .control-panel {
   padding: 2rem;
-  height: fit-content;
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  position: sticky;
-  top: 120px;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
+
 
 .panel-header {
   text-align: center;
@@ -408,13 +410,35 @@
   color: var(--gray-400);
 }
 
+/* 自定义滚动条样式 */
+.control-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.control-panel::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.control-panel::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+
+.control-panel::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
 /* 响应式设计 */
 @media (max-width: 1024px) {
   .control-panel {
     position: static;
-    top: auto;
+    height: auto;
+    overflow-y: visible;
   }
 }
+
 
 @media (max-width: 768px) {
   .control-panel {

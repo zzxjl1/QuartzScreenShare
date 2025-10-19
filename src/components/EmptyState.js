@@ -19,7 +19,7 @@ const EmptyState = () => {
         <div className="feature-highlights">
           <div className="feature-item">
             <div className="feature-icon">
-              <i className="fas fa-hd-video"></i>
+              <i className="fas fa-tv"></i>
             </div>
             <div className="feature-text">
               <strong>高清画质</strong>

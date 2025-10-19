@@ -52,7 +52,7 @@ const WelcomePage = () => {
             <span className="brand-name">晶莹投屏</span>
           </h1>
           <p className="welcome-subtitle">
-            现代化屏幕共享应用，基于WebRTC技术，支持高清画质和低延迟传输
+            HTML5 WebRTC屏幕共享应用，支持高清画质和低延迟传输
           </p>
         </div>
 
@@ -117,7 +117,7 @@ const WelcomePage = () => {
                 <span>低延迟</span>
               </div>
               <div className="feature">
-                <i className="fas fa-hd-video"></i>
+                <i className="fas fa-tv"></i>
                 <span>高清画质</span>
               </div>
             </div>
@@ -153,7 +153,7 @@ const WelcomePage = () => {
         </div>
 
         <div className="welcome-footer">
-          <p>© 2024 晶莹投屏 - 基于现代Web技术构建</p>
+          <p>© 2024 晶莹投屏 - 基于HTML5 WebRTC技术构建</p>
         </div>
       </div>
 
