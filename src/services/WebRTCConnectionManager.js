@@ -4,6 +4,8 @@ class WebRTCConnectionManager {
     this.peerConnections = new Map();
     this.remoteStreams = new Map();
     this.getLocalStream = null; // 本地流获取函数
+    this.reconnectAttempts = new Map(); // 重连尝试次数
+    this.maxReconnectAttempts = 3; // 最大重连次数
     
     this.rtcConfiguration = {
       iceServers: [
@@ -21,6 +23,7 @@ class WebRTCConnectionManager {
 
     this.setupSignalingHandlers();
   }
+
 
   // 设置获取本地流的方法
   setLocalStreamGetter(getter) {
@@ -69,12 +72,18 @@ class WebRTCConnectionManager {
     // 处理连接状态变化
     peerConnection.onconnectionstatechange = () => {
       console.log(`与${userId}的连接状态:`, peerConnection.connectionState);
-      if (peerConnection.connectionState === 'disconnected' || 
-          peerConnection.connectionState === 'failed' ||
-          peerConnection.connectionState === 'closed') {
+      if (peerConnection.connectionState === 'failed') {
+        this.handleConnectionFailure(userId);
+      } else if (peerConnection.connectionState === 'disconnected') {
+        console.log(`与${userId}的连接断开，等待重连...`);
+      } else if (peerConnection.connectionState === 'closed') {
         this.removePeerConnection(userId);
+      } else if (peerConnection.connectionState === 'connected') {
+        // 连接成功，重置重连计数
+        this.reconnectAttempts.delete(userId);
       }
     };
+
 
     this.peerConnections.set(userId, peerConnection);
     return peerConnection;
@@ -129,6 +138,39 @@ class WebRTCConnectionManager {
     }
   }
 
+  // 处理连接失败
+  async handleConnectionFailure(userId) {
+    const attempts = this.reconnectAttempts.get(userId) || 0;
+    
+    if (attempts < this.maxReconnectAttempts) {
+      console.log(`连接失败，尝试重连 (${attempts + 1}/${this.maxReconnectAttempts}):`, userId);
+      this.reconnectAttempts.set(userId, attempts + 1);
+      
+      // 等待一段时间后重连
+      setTimeout(() => {
+        this.attemptReconnect(userId);
+      }, 2000 * (attempts + 1)); // 递增延迟
+    } else {
+      console.error(`与${userId}的连接失败，已达到最大重连次数`);
+      this.removePeerConnection(userId);
+    }
+  }
+
+  // 尝试重新连接
+  async attemptReconnect(userId) {
+    try {
+      const oldConnection = this.peerConnections.get(userId);
+      if (oldConnection) {
+        oldConnection.close();
+      }
+      
+      // 重新请求连接
+      await this.requestStreamFrom(userId);
+    } catch (error) {
+      console.error(`重连${userId}失败:`, error);
+    }
+  }
+
   // 处理接收到的offer
   async handleOffer(data) {
     try {
@@ -156,8 +198,10 @@ class WebRTCConnectionManager {
 
     } catch (error) {
       console.error('处理offer失败:', error);
+      // 不直接删除连接，让连接状态处理器处理
     }
   }
+
 
   // 处理接收到的answer
   async handleAnswer(data) {
@@ -171,8 +215,10 @@ class WebRTCConnectionManager {
 
     } catch (error) {
       console.error('处理answer失败:', error);
+      // 不直接删除连接，让连接状态处理器处理
     }
   }
+
 
   // 处理ICE候选
   async handleIceCandidate(data) {
@@ -186,8 +232,10 @@ class WebRTCConnectionManager {
 
     } catch (error) {
       console.error('处理ICE候选失败:', error);
+      // ICE候选失败不应该删除连接，继续尝试其他候选
     }
   }
+
 
   // 移除对等连接
   removePeerConnection(userId) {
@@ -225,7 +273,9 @@ class WebRTCConnectionManager {
     });
     this.peerConnections.clear();
     this.remoteStreams.clear();
+    this.reconnectAttempts.clear();
   }
 }
+
 
 export default WebRTCConnectionManager;

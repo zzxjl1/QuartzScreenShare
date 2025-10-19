@@ -91,7 +91,7 @@
    ```
 
 5. **访问应用**
-   - 打开浏览器访问 `http://localhost:3000`
+   - 打开浏览器访问 `http://localhost:8123`
    - 首先进入欢迎页，选择加入房间或创建新房间
    - 进入房间页面后即可开始屏幕共享
 
@@ -392,4 +392,4 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 - 🔧 **Hook驱动** - 优雅的状态管理
 - 🚀 **性能优化** - Webpack构建优化
 
-体验地址: http://localhost:3000
+体验地址: http://localhost:8123

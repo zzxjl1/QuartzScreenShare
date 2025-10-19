@@ -15,13 +15,13 @@
 	<!-- No VS Code extensions required for this project -->
 
 - [x] Compile the Project
-	<!-- Dependencies installed successfully, server running on port 3000 -->
+	<!-- Dependencies installed successfully, server running on port 8123 -->
 
 - [x] Create and Run Task
 	<!-- Tasks created for running both frontend and backend servers -->
 
 - [x] Launch the Project
-	<!-- Application launched and accessible at http://localhost:3000 -->
+	<!-- Application launched and accessible at http://localhost:8123 -->
 
 - [x] Ensure Documentation is Complete
 	<!-- README.md completed with comprehensive documentation -->

@@ -7,10 +7,14 @@
     "start": "node server/index.js",
     "dev": "nodemon server/index.js",
     "build": "webpack --mode production",
+    "build:turbo": "webpack --mode production --progress",
     "dev:webpack": "webpack --mode development --watch",
-    "dev:all": "concurrently \"npm run dev\" \"npm run dev:webpack\"",
+    "dev:turbo": "webpack --mode development --watch --progress",
+    "dev:all": "concurrently \"npm run dev\" \"npm run dev:turbo\"",
+    "clean:cache": "rm -rf .webpack_cache",
     "install:all": "npm install"
   },
+
   "keywords": [
     "screen-sharing",
     "webrtc",
